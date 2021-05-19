@@ -1,0 +1,2 @@
+id_acheteur        somme_a_payer
+49790               480.0

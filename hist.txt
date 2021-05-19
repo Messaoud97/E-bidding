@@ -1,0 +1,1 @@
+id_acheteur     proposition     resultat

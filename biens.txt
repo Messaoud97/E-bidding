@@ -1,0 +1,11 @@
+ID 	                prix-dep          prix_fin         etat           acheteur      
+Item1				121               
+Item2				656               
+Item3				434
+Item4				71
+Item5				247
+Item6				477
+Item7				357
+Item8			    156
+Item9				801
+Item10				4011			 
