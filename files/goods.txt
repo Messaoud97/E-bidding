@@ -1,4 +1,4 @@
-ID 	                prix-dep          prix_fin         etat           acheteur      
+ID 	                Starting price          Close price         Status           Buyer      
 Item1				121               
 Item2				656               
 Item3				434

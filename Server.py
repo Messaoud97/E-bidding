@@ -2,7 +2,7 @@ import socket
 import threading
 from tabulate import tabulate
 from time import time
-
+# TO DO : env vars
 HEADER = 64
 PORT = 5050
 SERVER = socket.gethostbyname(socket.gethostname())
@@ -19,7 +19,7 @@ server = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 server.bind(ADDR)
 
 def send_items():
- f = open("biens.txt", "r")
+ f = open("files/goods.txt", "r")
  flines = f.readlines()
  for i in range(1, len(flines)):
     nline = flines[i].split()
@@ -33,7 +33,7 @@ def send_items():
 
 
 def send_facture(addr) :
-          f = open("facture.txt", "r")
+          f = open("files/bill.txt", "r")
           flines = f.readlines()
           for i in range(1 , len(flines)):
            nline = flines[i].split()
@@ -41,7 +41,7 @@ def send_facture(addr) :
            if nline[0] == addr[1]:
             return("you have to pay : "+str(nline[1])).encode(FORMAT)
            
-           return(('No facture for you !').encode(FORMAT))
+           return(('No bill for you !').encode(FORMAT))
 
 
 def handle_client(conn, addr):
@@ -57,11 +57,11 @@ def handle_client(conn, addr):
     while connected:
    
      if int(t) < int(time()) :
-        f = open("hist.txt", "a")
-        f.writelines(["\n"+str(addr[1])+"               "+str(latest_bid)+"          success"])
+        f = open("files/history.txt", "a")
+        f.writelines(["\n"+str(addr[1])+":"+str(latest_bid)+":Success"])
         f.close()
-        f = open("facture.txt", "a")
-        f.writelines(["\n"+str(addr[1])+"               "+str(float(latest_bid)*1.2)])
+        f = open("files/bill.txt", "a")
+        f.writelines(["\n"+str(addr[1])+":"+str(float(latest_bid)*1.2)])
         f.close()
         for i in range(1, len(conns)+1) :
           conns[i].send(('[AUCTION CLOSED !]'+str(send_facture(addr))).encode(FORMAT))
@@ -71,8 +71,8 @@ def handle_client(conn, addr):
      if int(newbid) > int(latest_bid) and int(t) >int(time()) : 
         
         t=t+30 
-        f = open("hist.txt", "a")
-        f.writelines(["\n"+str(addr[1])+"               "+str(latest_bid)+"          echec"])
+        f = open("files/history.txt", "a")
+        f.writelines(["\n"+str(addr[1])+":"+str(latest_bid)+":Fail"])
         f.close()
         listOfGlobals = globals()
         listOfGlobals['latest_bid'] = newbid
@@ -81,7 +81,7 @@ def handle_client(conn, addr):
           if conns[i] != conn :
            conns[i].send(('[LOOSING] : '+str(newbid)).encode(FORMAT))
           else  :
-           conns[i].send(('[WINNING !] : '+str(newbid)).encode(FORMAT))
+           conns[i].send(('[WINNING] : '+str(newbid)).encode(FORMAT))
      
   
         
